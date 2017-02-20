@@ -16,17 +16,9 @@
       <!-- NAVBAR -->
       <nav class="navbar navbar-default">
         <div class="container-fluid">
-          <!-- Brand and toggle get grouped for better mobile display -->
           <div class="navbar-header">
-            <!-- <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button> -->
             <a class="navbar-brand" href="#">Fight Simulator</a>
           </div>
-
           <!-- Collect the nav links, forms, and other content for toggling -->
           <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
@@ -45,54 +37,16 @@
         <p>VS</p>
         <!-- good guys -->
         <div class="good">
-          <button class="btn btn-success add-char" type="button" name="button">Add Character</button>
+          <button class="btn btn-success" id="add-char" type="button" name="button">Add Character</button>
           <!-- start character list -->
-          <div class="char">
-            <div class="remove">
-              <button type="button" class="btn btn-default">
-                <span class="glyphicon glyphicon-trash"></span>
-              </button>
-            </div>
 
-            <div class="char-name">
-              <p>Name: <input type="text" name="" value="Character" maxlength="20" size="21"></p>
-            </div>
-
-            <div class="char-dmg">
-              <p>
-                Damage:
-                <input type="text" name="" value="# of" maxlength="2" size="3">
-                <input type="text" name="" value="dice" maxlength="4" size="5">
-                + <input type="text" name="" value="bonus" maxlength="2" size="5">
-              </p>
-            </div>
-          </div>
         </div><!-- end good -->
-        
+
         <!-- bad guys -->
         <div class="bad">
-          <button class="btn btn-danger add-enemy" type="button" name="button">Add Enemy</button>
+          <button class="btn btn-danger" id="add-enemy" type="button" name="button">Add Enemy</button>
           <!-- Start Enemy List -->
-          <div class="char">
-            <div class="remove">
-              <button type="button" class="btn btn-default">
-                <span class="glyphicon glyphicon-trash"></span>
-              </button>
-            </div>
-
-            <div class="char-name">
-              <p>Name: <input type="text" name="" value="Enemy" maxlength="20" size="21"></p>
-            </div>
-
-            <div class="char-dmg">
-              <p>
-                Damage:
-                <input type="text" name="" value="# of" maxlength="2" size="3">
-                <input type="text" name="" value="dice" maxlength="4" size="5">
-                + <input type="text" name="" value="bonus" maxlength="2" size="5">
-              </p>
-            </div>
-          </div>
+          
         </div><!-- end bad -->
 
         <button class="btn btn-warning run" type="button" name="button">Run Simulation</button>
