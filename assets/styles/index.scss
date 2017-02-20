@@ -1,2 +1,52 @@
 $icon-font-path: '~bootstrap-sass/assets/fonts/bootstrap/';
 @import '~bootstrap-sass/assets/stylesheets/bootstrap';
+
+.main {
+  // border: 1px solid black;
+  // height: 500px;
+  text-align: center;
+}
+
+.good {
+  // border: 1px solid green;
+  height: 500px;
+  width: 50%;
+  float: left;
+  border-right: 2px solid black;
+  text-align: center;
+  align-items: center;
+}
+
+.bad {
+  // border: 1px solid red;
+  height: 500px;
+  width: 50%;
+  float: right;
+  text-align: center;
+}
+
+.run {
+  margin-top: 10px;
+}
+
+.char {
+  margin: auto;
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 15px;
+  height: 100px;
+  width: 70%;
+  text-align: left;
+}
+
+.good > .char {
+  border: 2px solid green;
+}
+
+.bad > .char {
+  border: 2px solid red;
+}
+
+.remove {
+  float: right;
+}
