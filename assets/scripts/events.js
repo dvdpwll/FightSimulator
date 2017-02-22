@@ -66,6 +66,80 @@ const onAddEnemy = function () {
   </div>`);
 };
 
+//create character objects
+const buildCharacterObjs = function (nameArray, healthArray, numDiceArray, diceTypeArray, bonusArray) {
+  let charArray = [];
+
+  for (let i = 0; i < nameArray.length; i++) {
+    let charObject = {
+      name: nameArray[i],
+      health: healthArray[i],
+      damage: {
+        number: numDiceArray[i],
+        dice: diceTypeArray[i],
+        bonus: bonusArray[i]
+      }
+    };
+
+    charArray[i] = charObject;
+  }
+
+  return charArray;
+};
+
+//start fighting!
+const fight = function (charArray) {
+  console.log('fighting');
+
+};
+
+//add a new character stat block
+const onRunSimulation = function () {
+  //check if there's enough characters
+  let numChar = $('.char').length;
+  let numBad = $('.bad').children().length;
+  let numGood = $('.good').children().length;
+
+  //check validation
+  //stuff for validation
+
+  if (numBad > 1 && numGood > 1) {
+    //make arrays to hold char info
+    let nameArray = [];
+    let healthArray = [];
+    let numDiceArray = [];
+    let diceTypeArray = [];
+    let bonusArray = [];
+    let charArray = [];
+
+    //extract input info from each char block
+    $('.char').each(function( index ) {
+      let name = $(this).children('div.char-name').children('p').children('input').val();
+      let health = $(this).children('div.char-hp').children('p').children('input').val();
+      let numDice = $(this).children('div.char-dmg').children('p').children('input:nth-child(1)').val();
+      let diceType = $(this).children('div.char-dmg').children('p').children('input:nth-child(2)').val();
+      let bonus = $(this).children('div.char-dmg').children('p').children('input:nth-child(3)').val();
+
+      nameArray[index] = name;
+      healthArray[index] = health;
+      numDiceArray[index] = numDice;
+      diceTypeArray[index] = diceType;
+      bonusArray[index] = bonus;
+    });
+
+    //build character objects
+    charArray = buildCharacterObjs(nameArray, healthArray, numDiceArray, diceTypeArray, bonusArray);
+
+    //fight!
+    fight(charArray);
+
+  }
+  else {
+    console.log('Please add an enemy or character.');
+  }
+
+};
+
 const addHandlers = () => {
   //hide these buttons on startup
   $('#sign-up').hide();
@@ -78,7 +152,6 @@ const addHandlers = () => {
   $('#add-enemy').on('click', onAddEnemy);
   $('#run-sim').on('click', onRunSimulation);
   $('.main').on('click', onCharacterBlock); //only remove button for now, uses bubble events
-
 };
 
 module.exports = {
