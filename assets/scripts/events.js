@@ -1,23 +1,37 @@
+// handlers for remove
+const onCharacterBlock = function (event) {
+  // set target, it's what the user clicked on
+  let target = $(event.target);
+
+  // remove char block
+  if (target.hasClass('remove-btn')) {
+    $(target).parent().parent().remove()
+  }
+};
 
 //add a new character stat block
 const onAddCharacter = function () {
   $('.good').append(`<div class="char">
       <div class="remove">
-        <button type="button" class="btn btn-default remove">
-          <span class="glyphicon glyphicon-trash"></span>
-        </button>
+        <button type="button" class="btn btn-default remove-btn">Remove</button>
       </div>
 
       <div class="char-name">
-        <p>Name: <input type="text" name="" value="Character" maxlength="20" size="21"></p>
+        <p>Name: <input type="text" name="" value="CharacterName" maxlength="20" size="21"></p>
+      </div>
+
+      <div class="char-hp">
+        <p>
+          Health: <input type="text" name="" value="100" maxlength="3" size="5">
+        </p>
       </div>
 
       <div class="char-dmg">
         <p>
           Damage:
-          <input type="text" name="" value="# of" maxlength="2" size="3">
-          <input type="text" name="" value="dice" maxlength="4" size="5">
-          + <input type="text" name="" value="bonus" maxlength="2" size="5">
+          <input type="text" name="" value="2" maxlength="2" size="3">
+          <input type="text" name="" value="d12" maxlength="4" size="5">
+          + <input type="text" name="" value="4" maxlength="2" size="5">
         </p>
       </div>
     </div>`);
@@ -27,23 +41,28 @@ const onAddCharacter = function () {
 const onAddEnemy = function () {
   $('.bad').append(`<div class="char">
     <div class="remove">
-      <button type="button" class="btn btn-default">
-        <span class="glyphicon glyphicon-trash"></span>
-      </button>
+      <button type="button" class="btn btn-default remove-btn">Remove</button>
     </div>
 
     <div class="char-name">
-      <p>Name: <input type="text" name="" value="Enemy" maxlength="20" size="21"></p>
+      <p>Name: <input type="text" name="" value="EnemyName" maxlength="20" size="21"></p>
+    </div>
+
+    <div class="char-hp">
+      <p>
+        Health: <input type="text" name="" value="200" maxlength="3" size="5">
+      </p>
     </div>
 
     <div class="char-dmg">
       <p>
         Damage:
-        <input type="text" name="" value="# of" maxlength="2" size="3">
-        <input type="text" name="" value="dice" maxlength="4" size="5">
-        + <input type="text" name="" value="bonus" maxlength="2" size="5">
+        <input type="text" name="" value="3" maxlength="2" size="3">
+        <input type="text" name="" value="d12" maxlength="4" size="5">
+        + <input type="text" name="" value="5" maxlength="2" size="5">
       </p>
     </div>
+
   </div>`);
 };
 
@@ -57,6 +76,9 @@ const addHandlers = () => {
   //buttons
   $('#add-char').on('click', onAddCharacter);
   $('#add-enemy').on('click', onAddEnemy);
+  $('#run-sim').on('click', onRunSimulation);
+  $('.main').on('click', onCharacterBlock); //only remove button for now, uses bubble events
+
 };
 
 module.exports = {
