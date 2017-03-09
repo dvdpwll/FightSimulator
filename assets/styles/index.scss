@@ -1,15 +1,29 @@
 $icon-font-path: '~bootstrap-sass/assets/fonts/bootstrap/';
 @import '~bootstrap-sass/assets/stylesheets/bootstrap';
 
+body {
+  font-family: 'Russo One', sans-serif;
+
+  //supposed to prevent showing the unstylized content, but doesn't work right?
+  visibility: hidden;
+}
+
+input {
+    text-align: center;
+}
+
 .main {
-  // border: 1px solid black;
-  // height: 500px;
   text-align: center;
+}
+
+.main2{
+  text-align: center;
+  display: none;
 }
 
 .good {
   // border: 1px solid green;
-  height: 500px;
+  height: 450px;
   width: 50%;
   float: left;
   border-right: 2px solid black;
@@ -19,7 +33,7 @@ $icon-font-path: '~bootstrap-sass/assets/fonts/bootstrap/';
 
 .bad {
   // border: 1px solid red;
-  height: 500px;
+  height: 450px;
   width: 50%;
   float: right;
   text-align: center;
@@ -29,14 +43,19 @@ $icon-font-path: '~bootstrap-sass/assets/fonts/bootstrap/';
   margin-top: 10px;
 }
 
+.back {
+  margin-top: 10px;
+}
+
 .char {
   margin: auto;
   margin-top: 10px;
   padding: 10px;
-  border-radius: 15px;
+  border-radius: 7px;
   height: 125px;
   width: 70%;
   text-align: left;
+  // color: green;
 }
 
 .good > .char {
@@ -49,4 +68,28 @@ $icon-font-path: '~bootstrap-sass/assets/fonts/bootstrap/';
 
 .remove {
   float: right;
+}
+
+.result-good {
+  width: 40%;
+  height: 125px;
+  margin: auto;
+  padding-top: 30px;
+  text-align: center;
+  border: 3px solid green;
+  border-radius: 15px;
+  background-color: #CCFFCC;
+  font-size: 40px;
+}
+
+.result-bad {
+  width: 40%;
+  height: 125px;
+  margin: auto;
+  padding-top: 30px;
+  text-align: center;
+  border: 3px solid red;
+  border-radius: 15px;
+  background-color: #FFCCCC;
+  font-size: 40px;
 }
