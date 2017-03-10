@@ -43,10 +43,6 @@ input {
   margin-top: 10px;
 }
 
-.back {
-  margin-top: 10px;
-}
-
 .char {
   margin: auto;
   margin-top: 10px;
@@ -70,8 +66,12 @@ input {
   float: right;
 }
 
+.result {
+  float: left;
+}
+
 .result-good {
-  width: 40%;
+  width: 25%;
   height: 125px;
   margin: auto;
   padding-top: 30px;
@@ -83,7 +83,7 @@ input {
 }
 
 .result-bad {
-  width: 40%;
+  width: 25%;
   height: 125px;
   margin: auto;
   padding-top: 30px;
@@ -92,4 +92,15 @@ input {
   border-radius: 15px;
   background-color: #FFCCCC;
   font-size: 40px;
+}
+
+.back-button {
+  margin-top: 10px;
+  display: none;
+  text-align: center;
+}
+
+.clear {
+  clear: both;
+  overflow: hidden;
 }

@@ -16,23 +16,35 @@ const onAddCharacter = function () {
         <button type="button" class="btn btn-default remove-btn">Remove</button>
       </div>
 
-      <div class="char-name">
-        <p>Name: <input type="text" name="" value="CharacterName" maxlength="20" size="21"></p>
+      <div class="char-name-hp">
+      <p>
+        Name: <input class="name" type="text" name="" value="CharacterName" maxlength="15" size="15">
+        &nbsp&nbsp&nbsp Health: <input class="health" type="text" name="" value="100" maxlength="3" size="3">
+      </p>
       </div>
 
-      <div class="char-hp">
-        <p>
-          Health: <input type="text" name="" value="100" maxlength="3" size="5">
-        </p>
+      <div class="char-ac-am">
+      <p>
+        Armor Class: <input class="armor-class" type="text" name="" value="13" maxlength="2" size="3">
+        &nbsp&nbsp&nbsp Attack Modifier: <input class="attack-modifier" type="text" name="" value="4" maxlength="2" size="3">
+      </p>
       </div>
 
       <div class="char-dmg">
-        <p>
-          Damage:
-          <input type="text" name="" value="2" maxlength="2" size="3">
-          <input type="text" name="" value="d12" maxlength="4" size="5">
-          + <input type="text" name="" value="4" maxlength="2" size="5">
-        </p>
+      <p>
+        Damage:
+        <input class="numDice" type="text" name="" value="2" maxlength="2" size="3">
+          <select name="dice-type">
+                  <option value="4">d4</option>
+                  <option value="6">d6</option>
+                  <option value="8" selected>d8</option>
+                  <option value="10">d10</option>
+                  <option value="12">d12</option>
+                  <option value="20">d20</option>
+                  <option value="100">d100</option>
+          </select>
+        + <input class="bonus" type="text" name="" value="4" maxlength="2" size="3">
+      </p>
       </div>
     </div>`);
 };
@@ -44,41 +56,55 @@ const onAddEnemy = function () {
       <button type="button" class="btn btn-default remove-btn">Remove</button>
     </div>
 
-    <div class="char-name">
-      <p>Name: <input type="text" name="" value="EnemyName" maxlength="20" size="21"></p>
+    <div class="char-name-hp">
+      <p>
+        Name: <input class="name" type="text" name="" value="EnemyName" maxlength="15" size="15">
+        &nbsp&nbsp&nbsp Health: <input class="health" type="text" name="" value="100" maxlength="3" size="3">
+      </p>
     </div>
 
-    <div class="char-hp">
-      <p>
-        Health: <input type="text" name="" value="100" maxlength="3" size="5">
-      </p>
+    <div class="char-ac-am">
+    <p>
+      Armor Class: <input class="armor-class" type="text" name="" value="13" maxlength="2" size="3">
+      &nbsp&nbsp&nbsp Attack Modifier: <input class="attack-modifier" type="text" name="" value="4" maxlength="2" size="3">
+    </p>
     </div>
 
     <div class="char-dmg">
-      <p>
-        Damage:
-        <input type="text" name="" value="2" maxlength="2" size="3">
-        <input type="text" name="" value="d12" maxlength="4" size="5">
-        + <input type="text" name="" value="4" maxlength="2" size="5">
-      </p>
+    <p>
+      Damage:
+      <input class="numDice" type="text" name="" value="2" maxlength="2" size="3">
+        <select name="dice-type">
+                <option value="4">d4</option>
+                <option value="6">d6</option>
+                <option value="8" selected>d8</option>
+                <option value="10">d10</option>
+                <option value="12">d12</option>
+                <option value="20">d20</option>
+                <option value="100">d100</option>
+        </select>
+      + <input class="bonus" type="text" name="" value="4" maxlength="2" size="3">
+    </p>
     </div>
 
   </div>`);
 };
 
 //create character objects
-const buildCharacterObjs = function (nameArray, healthArray, numDiceArray, diceTypeArray, bonusArray, teamArray) {
+const buildCharacterObjs = function (nameArray, healthArray, armorClassArray,
+  attackModifierArray, numDiceArray, diceTypeArray, bonusArray, teamArray) {
   let charArray = [];
 
   for (let i = 0; i < nameArray.length; i++) {
     let charObject = {
       name: nameArray[i],
       team: teamArray[i],
-      // turnOrder: 0,
+      ac: armorClassArray[i],
+      atkMod: attackModifierArray[i],
       health: parseInt(healthArray[i]),
       damage: {
         number: parseInt(numDiceArray[i]),
-        dice: diceTypeArray[i],
+        dice: parseInt(diceTypeArray[i]),
         bonus: parseInt(bonusArray[i])
       }
     };
@@ -111,39 +137,44 @@ function shuffle(array) {
 }
 
 //insert good result
-function addBadResult(charArray) {
-  $('.results').append(`<div class="result-bad">
+function addBadResult() {
+  $('.results').append(`<div class="result result-bad">
     <p>Bad Wins!</p>
   </div>`);
 }
 
 //insert bad result
-function addGoodResult(charArray) {
-  $('.results').append(`<div class="result-good">
+function addGoodResult() {
+  $('.results').append(`<div class="result result-good">
     <p>Good Wins!</p>
   </div>`);
 }
 
 //display the results of fight
-function displayResults(winner, charArray) {
+function displayResults(resultsArray) {
   //hide main
   $('.main').css('display', 'none');
 
   //reveal main2
   $('.main2').css('display', 'block');
+  $('.back-button').css('display', 'block');
+
 
   //empty results
   $('.results').empty();
 
-  if (winner == 'Good Wins') {
-    console.log(winner);
-    console.log(charArray);
-    addGoodResult(charArray);
-  }
-  else if (winner == 'Bad Wins') {
-    console.log(winner);
-    console.log(charArray);
-    addBadResult(charArray);
+
+  for (let i = 0; i < resultsArray.length; i++) {
+    let winner = resultsArray[i];
+
+    if (winner == 'Good Wins') {
+      console.log(winner);
+      addGoodResult();
+    }
+    else if (winner == 'Bad Wins') {
+      console.log(winner);
+      addBadResult();
+    }
   }
 }
 
@@ -153,8 +184,103 @@ function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 }
 
+//calculate damage
+function calculateDamage(charArray, charTurn) {
+  let numDice = charArray[charTurn].damage.number;
+  let diceType = charArray[charTurn].damage.dice;
+  // diceType = parseInt(diceType.substring(1));
+  let bonus = charArray[charTurn].damage.bonus;
+  let damage = ( numDice * ( getRandomInt(0, diceType) + 1 ) ) + bonus;
+  return damage;
+}
+
+//try to hit enemy
+function tryHit(cA, charTurn, validAttack) {
+  let roll = getRandomInt(1, 21);
+  let attackRoll = roll + parseInt(cA[charTurn].atkMod);
+  let armorClass = cA[validAttack].ac;
+
+  if (attackRoll >= armorClass) {
+    return true;
+  }
+  else {
+    return false;
+  }
+}
+
+//decide who to attack
+function pickTarget(charArray, cA_Health, charTurn) {
+  let validAttack = -1;
+  while (validAttack < 0) {
+    let rand = getRandomInt(0, charArray.length);
+    if (charArray[charTurn].team != charArray[rand].team && cA_Health[rand] > 0) {
+      validAttack = rand;
+    }
+  }
+  return validAttack;
+}
+
+//running fight simulate
+function runFight(cA, gH, bH) {
+  //save health in new array bc apparently javascript doesnt know what pass by value is
+  let cA_Health = [];
+  for (let i = 0; i < cA.length; i++) {
+    cA_Health[i] = cA[i].health;
+  }
+
+  let turns = 0;
+  while (gH > 0 && bH > 0) {
+
+    let charTurn = turns % cA.length;
+
+    if (cA_Health[charTurn] > 0) {
+
+      let validAttack = pickTarget(cA, cA_Health, charTurn);
+
+      let hit = tryHit(cA, charTurn, validAttack);
+
+      if (hit) {
+        let damage = calculateDamage(cA, charTurn);
+
+        //apply damage
+        let currentHealth = cA_Health[validAttack];
+        if (currentHealth >= damage) {
+          cA_Health[validAttack] = currentHealth - damage;
+
+          if (cA[validAttack].team == 'good') {
+            gH -= damage;
+          }
+          else if (cA[validAttack].team == 'bad') {
+            bH -= damage;
+          }
+        }
+        else {
+          cA_Health[validAttack] = 0
+
+          if (cA[validAttack].team == 'good') {
+            gH -= currentHealth;
+          }
+          else if (cA[validAttack].team == 'bad') {
+            bH -= currentHealth;
+          }
+        }
+      }// end if hit
+    }//end if for valid attack
+
+    turns++;
+  }
+
+  if (gH > 0) {
+    return 'Good Wins';
+  }
+  else if (bH > 0) {
+    return 'Bad Wins';
+  }
+
+}
+
 //start fighting!
-const fight = function (charArray) {
+const fight = function (charArray, count) {
   let goodHealth = 0;
   let badHealth = 0;
 
@@ -167,79 +293,22 @@ const fight = function (charArray) {
     }
   }
 
-  /////////////////////////////////////
-  //doesn't feel like it shuffles the arrays properly
-  charArray = shuffle(charArray);
-  /////////////////////////////////////
+  //store the results of each fight
+  let resultsArray = [];
 
-  let turns = 0;
-  while (goodHealth > 0 && badHealth > 0) {
-    let charTurn = turns % charArray.length;
+  //simulate a fight for each count
+  for (let i = 0; i < count; i++) {
+    /////////////////////////////////////
+    //shuffle charArray
+    //doesn't feel like it shuffles the arrays properly
+    // charArray = shuffle(charArray);
+    /////////////////////////////////////
 
-    if (charArray[charTurn].health > 0) {
-      //decide who to attack
-      let validAttack = -1;
-      while (validAttack < 0) {
-        let rand = getRandomInt(0, charArray.length);
-        if (charArray[charTurn].team != charArray[rand].team && charArray[rand].health > 0) {
-          validAttack = rand;
-        }
-      }
-
-      //calculate damage
-      // let damage = 0;
-      let numDice = charArray[charTurn].damage.number;
-      let diceType = charArray[charTurn].damage.dice;
-      diceType = parseInt(diceType.substring(1));
-      let bonus = charArray[charTurn].damage.bonus;
-      let damage = ( numDice * ( getRandomInt(0, diceType) + 1 ) ) + bonus;
-
-      // console.log('--------------------');
-      // console.log(charArray[charTurn].name);
-      // console.log(damage);
-      // console.log(charArray[validAttack].name);
-      // console.log('HealthB: ' + charArray[validAttack].health);
-
-
-      //apply damage
-      let currentHealth = charArray[validAttack].health;
-      if (currentHealth >= damage) {
-        charArray[validAttack].health = currentHealth - damage;
-        // console.log('HealthA1: ' + charArray[validAttack].health);
-
-        if (charArray[validAttack].team == 'good') {
-          goodHealth -= damage;
-        }
-        else if (charArray[validAttack].team == 'bad') {
-          badHealth -= damage;
-        }
-      }
-      else {
-        charArray[validAttack].health = 0
-        // console.log('HealthA2: ' + charArray[validAttack].health);
-
-        if (charArray[validAttack].team == 'good') {
-          goodHealth -= currentHealth;
-        }
-        else if (charArray[validAttack].team == 'bad') {
-          badHealth -= currentHealth;
-        }
-      }
-    }
-
-    turns++;
+    let res = runFight(charArray, goodHealth, badHealth);
+    resultsArray[i] = res;
   }
 
-  if (goodHealth > 0) {
-    displayResults('Good Wins', charArray);
-
-    // return 'Good Wins';
-  }
-  else if (badHealth > 0) {
-    displayResults('Bad Wins', charArray);
-
-    // return 'Bad Wins'
-  }
+  displayResults(resultsArray)
 };
 
 //add a new character stat block
@@ -248,14 +317,17 @@ const onRunSimulation = function () {
   let numChar = $('.char').length;
   let numBad = $('.bad').children().length;
   let numGood = $('.good').children().length;
+  let count = $('#run-count').val();
 
   //check validation
-  //stuff for validation
+  //add stuff to validate inputs of above variables
 
   if (numBad > 1 && numGood > 1) {
     //make arrays to hold char info
     let nameArray = [];
     let healthArray = [];
+    let armorClassArray = [];
+    let attackModifierArray = [];
     let numDiceArray = [];
     let diceTypeArray = [];
     let bonusArray = [];
@@ -264,11 +336,15 @@ const onRunSimulation = function () {
 
     //extract input info from each char block
     $('.char').each(function( index ) {
-      let name = $(this).children('div.char-name').children('p').children('input').val();
-      let health = $(this).children('div.char-hp').children('p').children('input').val();
-      let numDice = $(this).children('div.char-dmg').children('p').children('input:nth-child(1)').val();
-      let diceType = $(this).children('div.char-dmg').children('p').children('input:nth-child(2)').val();
-      let bonus = $(this).children('div.char-dmg').children('p').children('input:nth-child(3)').val();
+      // let name = $(this).children('div.char-name-hp').children('p').children('input').val();
+      let name = $(this).children('div.char-name-hp').children('p').children('input.name').val();
+      let health = $(this).children('div.char-name-hp').children('p').children('input.health').val();
+      let armorClass = $(this).children('div.char-ac-am').children('p').children('input.armor-class').val();
+      let attackModifier = $(this).children('div.char-ac-am').children('p').children('input.attack-modifier').val();
+      let numDice = $(this).children('div.char-dmg').children('p').children('input.numDice').val();
+      let diceType = $(this).children('div.char-dmg').children('p').children('select').val();
+      let bonus = $(this).children('div.char-dmg').children('p').children('input.bonus').val();
+
       let team = 'none';
       if ($(this).parent().hasClass('good')) {
         team = 'good';
@@ -277,8 +353,11 @@ const onRunSimulation = function () {
         team = 'bad';
       }
 
+      //add ac and atkmod
       nameArray[index] = name;
       healthArray[index] = health;
+      armorClassArray[index] = armorClass;
+      attackModifierArray[index] = attackModifier;
       numDiceArray[index] = numDice;
       diceTypeArray[index] = diceType;
       bonusArray[index] = bonus;
@@ -286,10 +365,11 @@ const onRunSimulation = function () {
     });
 
     //build character objects
-    charArray = buildCharacterObjs(nameArray, healthArray, numDiceArray, diceTypeArray, bonusArray, teamArray);
+    charArray = buildCharacterObjs(nameArray, healthArray, armorClassArray,
+      attackModifierArray, numDiceArray, diceTypeArray, bonusArray, teamArray);
 
     //fight!
-    fight(charArray);
+    fight(charArray, count);
 
     // console.log(winner);
 
@@ -306,6 +386,7 @@ const onBack = function () {
 
   //hide main2
   $('.main2').css('display', 'none');
+  $('.back-button').css('display', 'none');
 
   //empty results
   $('.results').empty();
