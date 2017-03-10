@@ -1,4 +1,81 @@
-// handlers for remove
+//add a new character stat block
+const copyCharacter = function (name, health, armorClass, attackModifier, numDice, diceType, bonus, team) {
+  let teamClass = `.${team}`;
+  let d4 = '';
+  let d6 = '';
+  let d8 = '';
+  let d10 = '';
+  let d12 = '';
+  let d20 = '';
+  let d100 = '';
+
+  if (diceType == 4) {
+    d4 = 'selected';
+  }
+  else if (diceType == 6) {
+    d6 = 'selected';
+  }
+  else if (diceType == 8) {
+    d8 = 'selected';
+  }
+  else if (diceType == 10) {
+    d10 = 'selected';
+  }
+  else if (diceType == 12) {
+    d12 = 'selected';
+  }
+  else if (diceType == 20) {
+    d20 = 'selected';
+  }
+  else if (diceType == 100) {
+    d100 = 'selected';
+  }
+
+
+  $(teamClass).append(`<div class="char">
+      <div class="remove">
+        <button type="button" class="btn btn-default remove-btn">Remove</button>
+      </div>
+
+      <div class="char-name-hp">
+      <p>
+        Name: <input class="name" type="text" name="" value="${name}" maxlength="15" size="15">
+        &nbsp&nbsp&nbsp Health: <input class="health" type="text" name="" value="${health}" maxlength="3" size="3">
+      </p>
+      </div>
+
+      <div class="copy">
+        <button type="button" class="btn btn-default copy copy-btn">Copy</button>
+      </div>
+
+      <div class="char-ac-am">
+      <p>
+        Armor Class: <input class="armor-class" type="text" name="" value="${armorClass}" maxlength="2" size="3">
+        &nbsp&nbsp&nbsp Attack Modifier: <input class="attack-modifier" type="text" name="" value="${attackModifier}" maxlength="2" size="3">
+      </p>
+      </div>
+
+      <div class="char-dmg">
+        <p>
+          Damage:
+          <input class="numDice" type="text" name="" value="${numDice}" maxlength="2" size="3">
+            <select name="dice-type">
+                    <option value="4" ${d4}>d4</option>
+                    <option value="6" ${d6}>d6</option>
+                    <option value="8" ${d8}>d8</option>
+                    <option value="10" ${d10}>d10</option>
+                    <option value="12" ${d12}>d12</option>
+                    <option value="20" ${d20}>d20</option>
+                    <option value="100" ${d100}>d100</option>
+            </select>
+          + <input class="bonus" type="text" name="" value="${bonus}" maxlength="2" size="3">
+        </p>
+      </div>
+
+    </div>`);
+};
+
+//bubble events for remove and copy
 const onCharacterBlock = function (event) {
   // set target, it's what the user clicked on
   let target = $(event.target);
@@ -6,6 +83,30 @@ const onCharacterBlock = function (event) {
   // remove char block
   if (target.hasClass('remove-btn')) {
     $(target).parent().parent().remove()
+  }
+
+  // copy char block
+  if (target.hasClass('copy-btn')) {
+    //get inputs
+    let name = $(target).parent().parent().children('div.char-name-hp').children('p').children('input.name').val();
+    let health = $(target).parent().parent().children('div.char-name-hp').children('p').children('input.health').val();
+    let armorClass = $(target).parent().parent().children('div.char-ac-am').children('p').children('input.armor-class').val();
+    let attackModifier = $(target).parent().parent().children('div.char-ac-am').children('p').children('input.attack-modifier').val();
+    let numDice = $(target).parent().parent().children('div.char-dmg').children('p').children('input.numDice').val();
+    let diceType = $(target).parent().parent().children('div.char-dmg').children('p').children('select').val();
+    let bonus = $(target).parent().parent().children('div.char-dmg').children('p').children('input.bonus').val();
+    let team = 'none';
+    if ($(target).parent().parent().parent().hasClass('good')) {
+      team = 'good';
+    }
+    else if ($(target).parent().parent().parent().hasClass('bad')) {
+      team = 'bad';
+    }
+
+    //make char block
+    copyCharacter(name, health, armorClass, attackModifier, numDice, diceType, bonus, team);
+
+
   }
 };
 
@@ -23,6 +124,10 @@ const onAddCharacter = function () {
       </p>
       </div>
 
+      <div class="copy">
+        <button type="button" class="btn btn-default copy copy-btn">Copy</button>
+      </div>
+
       <div class="char-ac-am">
       <p>
         Armor Class: <input class="armor-class" type="text" name="" value="13" maxlength="2" size="3">
@@ -31,21 +136,22 @@ const onAddCharacter = function () {
       </div>
 
       <div class="char-dmg">
-      <p>
-        Damage:
-        <input class="numDice" type="text" name="" value="2" maxlength="2" size="3">
-          <select name="dice-type">
-                  <option value="4">d4</option>
-                  <option value="6">d6</option>
-                  <option value="8" selected>d8</option>
-                  <option value="10">d10</option>
-                  <option value="12">d12</option>
-                  <option value="20">d20</option>
-                  <option value="100">d100</option>
-          </select>
-        + <input class="bonus" type="text" name="" value="4" maxlength="2" size="3">
-      </p>
+        <p>
+          Damage:
+          <input class="numDice" type="text" name="" value="2" maxlength="2" size="3">
+            <select name="dice-type">
+                    <option value="4">d4</option>
+                    <option value="6">d6</option>
+                    <option value="8" selected>d8</option>
+                    <option value="10">d10</option>
+                    <option value="12">d12</option>
+                    <option value="20">d20</option>
+                    <option value="100">d100</option>
+            </select>
+          + <input class="bonus" type="text" name="" value="4" maxlength="2" size="3">
+        </p>
       </div>
+
     </div>`);
 };
 
@@ -63,6 +169,10 @@ const onAddEnemy = function () {
       </p>
     </div>
 
+    <div class="copy">
+      <button type="button" class="btn btn-default copy copy-btn">Copy</button>
+    </div>
+
     <div class="char-ac-am">
     <p>
       Armor Class: <input class="armor-class" type="text" name="" value="13" maxlength="2" size="3">
@@ -71,20 +181,20 @@ const onAddEnemy = function () {
     </div>
 
     <div class="char-dmg">
-    <p>
-      Damage:
-      <input class="numDice" type="text" name="" value="2" maxlength="2" size="3">
-        <select name="dice-type">
-                <option value="4">d4</option>
-                <option value="6">d6</option>
-                <option value="8" selected>d8</option>
-                <option value="10">d10</option>
-                <option value="12">d12</option>
-                <option value="20">d20</option>
-                <option value="100">d100</option>
-        </select>
-      + <input class="bonus" type="text" name="" value="4" maxlength="2" size="3">
-    </p>
+      <p>
+        Damage:
+        <input class="numDice" type="text" name="" value="2" maxlength="2" size="3">
+          <select name="dice-type">
+                  <option value="4">d4</option>
+                  <option value="6">d6</option>
+                  <option value="8" selected>d8</option>
+                  <option value="10">d10</option>
+                  <option value="12">d12</option>
+                  <option value="20">d20</option>
+                  <option value="100">d100</option>
+          </select>
+        + <input class="bonus" type="text" name="" value="4" maxlength="2" size="3">
+      </p>
     </div>
 
   </div>`);
@@ -336,7 +446,6 @@ const onRunSimulation = function () {
 
     //extract input info from each char block
     $('.char').each(function( index ) {
-      // let name = $(this).children('div.char-name-hp').children('p').children('input').val();
       let name = $(this).children('div.char-name-hp').children('p').children('input.name').val();
       let health = $(this).children('div.char-name-hp').children('p').children('input.health').val();
       let armorClass = $(this).children('div.char-ac-am').children('p').children('input.armor-class').val();
@@ -404,7 +513,7 @@ const addHandlers = () => {
   $('#add-enemy').on('click', onAddEnemy);
   $('#run-sim').on('click', onRunSimulation);
   $('#back').on('click', onBack);
-  $('.main').on('click', onCharacterBlock); //only activates the remove button for now, uses bubble events
+  $('.main').on('click', onCharacterBlock); //activates the remove and copy buttons, uses bubble events
 
   //supposed to prevent showing the unstylized content, but doesn't work right?
   $('body').css('visibility', 'visible');
