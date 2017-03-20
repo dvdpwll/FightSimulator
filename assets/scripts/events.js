@@ -1,5 +1,5 @@
 //add a new character stat block
-const copyCharacter = function (name, health, armorClass, attackModifier, numDice, diceType, bonus, team) {
+const makeCharacter = function (name, health, armorClass, attackModifier, numDice, diceType, bonus, team) {
   let teamClass = `.${team}`;
   let d4 = '';
   let d6 = '';
@@ -33,43 +33,50 @@ const copyCharacter = function (name, health, armorClass, attackModifier, numDic
 
 
   $(teamClass).append(`<div class="char">
-      <div class="remove">
-        <button type="button" class="btn btn-default remove-btn">Remove</button>
+
+      <div class="buttons">
+        <div class="remove">
+          <button type="button" class="btn btn-default remove-btn">Remove</button>
+        </div>
+
+        <div class="copy">
+          <button type="button" class="btn btn-default copy copy-btn">Copy</button>
+        </div>
       </div>
 
-      <div class="char-name-hp">
-      <p>
-        Name: <input class="name" type="text" name="" value="${name}" maxlength="15" size="15">
-        &nbsp&nbsp&nbsp Health: <input class="health" type="text" name="" value="${health}" maxlength="3" size="3">
-      </p>
-      </div>
+      <div class="stats">
+        <div class="char-name">
+          <p>
+            Name: <span class="name">${name}</span>
+          </p>
+        </div>
 
-      <div class="copy">
-        <button type="button" class="btn btn-default copy copy-btn">Copy</button>
-      </div>
+        <div class="char-hp">
+          <p>
+            Health: <span class="health">${health}</span>
+          </p>
+        </div>
 
-      <div class="char-ac-am">
-      <p>
-        Armor Class: <input class="armor-class" type="text" name="" value="${armorClass}" maxlength="2" size="3">
-        &nbsp&nbsp&nbsp Attack Modifier: <input class="attack-modifier" type="text" name="" value="${attackModifier}" maxlength="2" size="3">
-      </p>
-      </div>
+        <div class="char-ac">
+          <p>
+            Armor Class: <span class="armor-class">${armorClass}</span>
+          </p>
+        </div>
 
-      <div class="char-dmg">
-        <p>
-          Damage:
-          <input class="numDice" type="text" name="" value="${numDice}" maxlength="2" size="3">
-            <select name="dice-type">
-                    <option value="4" ${d4}>d4</option>
-                    <option value="6" ${d6}>d6</option>
-                    <option value="8" ${d8}>d8</option>
-                    <option value="10" ${d10}>d10</option>
-                    <option value="12" ${d12}>d12</option>
-                    <option value="20" ${d20}>d20</option>
-                    <option value="100" ${d100}>d100</option>
-            </select>
-          + <input class="bonus" type="text" name="" value="${bonus}" maxlength="2" size="3">
-        </p>
+        <div class="char-am">
+          <p>
+            Attak Modifier: <span class="attack-modifier">${attackModifier}</span>
+          </p>
+        </div>
+
+        <div class="char-dmg">
+          <p>
+            Damage:
+            <span class="num-dice">${numDice}</span>
+            <span class="dice-type">d${diceType}</span>
+            + <span class="bonus">${bonus}</span>
+          </p>
+        </div>
       </div>
 
     </div>`);
@@ -104,100 +111,144 @@ const onCharacterBlock = function (event) {
     }
 
     //make char block
-    copyCharacter(name, health, armorClass, attackModifier, numDice, diceType, bonus, team);
+    makeCharacter(name, health, armorClass, attackModifier, numDice, diceType, bonus, team);
+  }
+};
 
+//add new character
+const onNewChar = function () {
+  let name = $('.new-char-form').children('div.char-name').children('p').children('input.name').val();
+  let health = parseInt($('.new-char-form').children('div.char-hp').children('p').children('input.health').val());
+  let armorClass = parseInt($('.new-char-form').children('div.char-ac').children('p').children('input.armor-class').val());
+  let attackModifier = parseInt($('.new-char-form').children('div.char-am').children('p').children('input.attack-modifier').val());
+  let numDice = parseInt($('.new-char-form').children('div.char-dmg').children('p').children('input.numDice').val());
+  let diceType = $('.new-char-form').children('div.char-dmg').children('p').children('select').val();
+  let bonus = parseInt($('.new-char-form').children('div.char-dmg').children('p').children('input.bonus').val());
+  let team = $('.new-char-form').children('div.char-team').children('select').val();
 
+  if (Number.isInteger(health) && Number.isInteger(armorClass) &&
+      Number.isInteger(attackModifier) && Number.isInteger(numDice) &&
+      Number.isInteger(bonus)) {
+    $('.main').css('display', 'block');
+    $('.main3').css('display', 'none');
+    makeCharacter(name, health, armorClass, attackModifier, numDice, diceType, bonus, team);
+  }
+  else {
+    console.log('please check your inputs');
   }
 };
 
 //add a new character stat block
 const onAddCharacter = function () {
-  $('.good').append(`<div class="char">
-      <div class="remove">
-        <button type="button" class="btn btn-default remove-btn">Remove</button>
-      </div>
+  $('.main').css('display', 'none');
+  $('.main3').css('display', 'block');
+  $('.new-char-form').empty();
 
-      <div class="char-name-hp">
+  $('.new-char-form').append(`
+    <div class="char-name">
       <p>
-        Name: <input class="name" type="text" name="" value="CharacterName" maxlength="15" size="15">
-        &nbsp&nbsp&nbsp Health: <input class="health" type="text" name="" value="100" maxlength="3" size="3">
+        Name: <input class="name" type="text" name="" value="" maxlength="15" size="15">
       </p>
-      </div>
-
-      <div class="copy">
-        <button type="button" class="btn btn-default copy copy-btn">Copy</button>
-      </div>
-
-      <div class="char-ac-am">
-      <p>
-        Armor Class: <input class="armor-class" type="text" name="" value="13" maxlength="2" size="3">
-        &nbsp&nbsp&nbsp Attack Modifier: <input class="attack-modifier" type="text" name="" value="4" maxlength="2" size="3">
-      </p>
-      </div>
-
-      <div class="char-dmg">
-        <p>
-          Damage:
-          <input class="numDice" type="text" name="" value="2" maxlength="2" size="3">
-            <select name="dice-type">
-                    <option value="4">d4</option>
-                    <option value="6">d6</option>
-                    <option value="8" selected>d8</option>
-                    <option value="10">d10</option>
-                    <option value="12">d12</option>
-                    <option value="20">d20</option>
-                    <option value="100">d100</option>
-            </select>
-          + <input class="bonus" type="text" name="" value="4" maxlength="2" size="3">
-        </p>
-      </div>
-
-    </div>`);
-};
-
-//add a new character stat block
-const onAddEnemy = function () {
-  $('.bad').append(`<div class="char">
-    <div class="remove">
-      <button type="button" class="btn btn-default remove-btn">Remove</button>
     </div>
-
-    <div class="char-name-hp">
+    <div class="char-hp">
       <p>
-        Name: <input class="name" type="text" name="" value="EnemyName" maxlength="15" size="15">
-        &nbsp&nbsp&nbsp Health: <input class="health" type="text" name="" value="100" maxlength="3" size="3">
+        Health: <input class="health" type="text" name="" value="" maxlength="3" size="3">
       </p>
     </div>
 
-    <div class="copy">
-      <button type="button" class="btn btn-default copy copy-btn">Copy</button>
+    <div class="char-ac">
+      <p>
+        Armor Class: <input class="armor-class" type="text" name="" value="" maxlength="2" size="3">
+      </p>
     </div>
 
-    <div class="char-ac-am">
-    <p>
-      Armor Class: <input class="armor-class" type="text" name="" value="13" maxlength="2" size="3">
-      &nbsp&nbsp&nbsp Attack Modifier: <input class="attack-modifier" type="text" name="" value="4" maxlength="2" size="3">
-    </p>
+    <div class="char-am">
+      <p>
+        Attack Modifier: <input class="attack-modifier" type="text" name="" value="" maxlength="2" size="3">
+      </p>
     </div>
 
     <div class="char-dmg">
       <p>
         Damage:
-        <input class="numDice" type="text" name="" value="2" maxlength="2" size="3">
+        <input class="numDice" type="text" name="" value="" maxlength="2" size="3">
           <select name="dice-type">
-                  <option value="4">d4</option>
+                  <option value="4" selected>d4</option>
                   <option value="6">d6</option>
-                  <option value="8" selected>d8</option>
+                  <option value="8">d8</option>
                   <option value="10">d10</option>
                   <option value="12">d12</option>
                   <option value="20">d20</option>
                   <option value="100">d100</option>
           </select>
-        + <input class="bonus" type="text" name="" value="4" maxlength="2" size="3">
+        + <input class="bonus" type="text" name="" value="" maxlength="2" size="3">
       </p>
     </div>
 
-  </div>`);
+    <div class="char-team">
+      Team:
+      <select name="team">
+              <option value="good" selected>Ally</option>
+              <option value="bad">Enemy</option>
+      </select>
+    </div>
+    `);
+};
+
+//add a new character stat block
+const onAddEnemy = function () {
+  $('.main').css('display', 'none');
+  $('.main3').css('display', 'block');
+  $('.new-char-form').empty();
+
+  $('.new-char-form').append(`
+    <div class="char-name">
+      <p>
+        Name: <input class="name" type="text" name="" value="" maxlength="15" size="15">
+      </p>
+    </div>
+    <div class="char-hp">
+      <p>
+        Health: <input class="health" type="text" name="" value="" maxlength="3" size="3">
+      </p>
+    </div>
+
+    <div class="char-ac">
+      <p>
+        Armor Class: <input class="armor-class" type="text" name="" value="" maxlength="2" size="3">
+      </p>
+    </div>
+    <div class="char-am">
+      <p>
+        Attack Modifier: <input class="attack-modifier" type="text" name="" value="" maxlength="2" size="3">
+      </p>
+    </div>
+
+    <div class="char-dmg">
+      <p>
+        Damage:
+        <input class="numDice" type="text" name="" value="" maxlength="2" size="3">
+          <select name="dice-type">
+                  <option value="4" selected>d4</option>
+                  <option value="6">d6</option>
+                  <option value="8">d8</option>
+                  <option value="10">d10</option>
+                  <option value="12">d12</option>
+                  <option value="20">d20</option>
+                  <option value="100">d100</option>
+          </select>
+        + <input class="bonus" type="text" name="" value="" maxlength="2" size="3">
+      </p>
+    </div>
+
+    <div class="char-team">
+      Team:
+      <select name="team">
+              <option value="good">Ally</option>
+              <option value="bad" selected>Enemy</option>
+      </select>
+    </div>
+    `);
 };
 
 //create character objects
@@ -278,11 +329,9 @@ function displayResults(resultsArray) {
     let winner = resultsArray[i];
 
     if (winner == 'Good Wins') {
-      console.log(winner);
       addGoodResult();
     }
     else if (winner == 'Bad Wins') {
-      console.log(winner);
       addBadResult();
     }
   }
@@ -446,13 +495,14 @@ const onRunSimulation = function () {
 
     //extract input info from each char block
     $('.char').each(function( index ) {
-      let name = $(this).children('div.char-name-hp').children('p').children('input.name').val();
-      let health = $(this).children('div.char-name-hp').children('p').children('input.health').val();
-      let armorClass = $(this).children('div.char-ac-am').children('p').children('input.armor-class').val();
-      let attackModifier = $(this).children('div.char-ac-am').children('p').children('input.attack-modifier').val();
-      let numDice = $(this).children('div.char-dmg').children('p').children('input.numDice').val();
-      let diceType = $(this).children('div.char-dmg').children('p').children('select').val();
-      let bonus = $(this).children('div.char-dmg').children('p').children('input.bonus').val();
+      let name = $(this).children('div.stats').children('div.char-name').children('p').children('span.name').text();
+      let health = $(this).children('div.stats').children('div.char-hp').children('p').children('span.health').text();
+      let armorClass = $(this).children('div.stats').children('div.char-ac').children('p').children('span.armor-class').text();
+      let attackModifier = $(this).children('div.stats').children('div.char-am').children('p').children('span.attack-modifier').text();
+      let numDice = $(this).children('div.stats').children('div.char-dmg').children('p').children('span.num-dice').text();
+      let diceType = $(this).children('div.stats').children('div.char-dmg').children('p').children('span.dice-type').text();
+      diceType = diceType.substr(1);
+      let bonus = $(this).children('div.stats').children('div.char-dmg').children('p').children('span.bonus').text();
 
       let team = 'none';
       if ($(this).parent().hasClass('good')) {
@@ -462,7 +512,6 @@ const onRunSimulation = function () {
         team = 'bad';
       }
 
-      //add ac and atkmod
       nameArray[index] = name;
       healthArray[index] = health;
       armorClassArray[index] = armorClass;
@@ -479,9 +528,6 @@ const onRunSimulation = function () {
 
     //fight!
     fight(charArray, count);
-
-    // console.log(winner);
-
   }
   else {
     console.log('Please add an enemy or character.');
@@ -501,6 +547,18 @@ const onBack = function () {
   $('.results').empty();
 }
 
+const onCharBack = function () {
+  //reveal main
+  $('.main').css('display', 'block');
+
+  //hide main2
+  $('.main3').css('display', 'none');
+  $('.back-button').css('display', 'none');
+
+  //empty results
+  $('.new-char-form').empty();
+}
+
 const addHandlers = () => {
   //hide these buttons on startup
   $('#sign-up').hide();
@@ -511,6 +569,8 @@ const addHandlers = () => {
   //buttons
   $('#add-char').on('click', onAddCharacter);
   $('#add-enemy').on('click', onAddEnemy);
+  $('#char-submit').on('click', onNewChar);
+  $('#char-back').on('click', onCharBack);
   $('#run-sim').on('click', onRunSimulation);
   $('#back').on('click', onBack);
   $('.main').on('click', onCharacterBlock); //activates the remove and copy buttons, uses bubble events
