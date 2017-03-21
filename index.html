@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+    <head>
+      <title>Fight Simulator</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+
+      <!-- Do not add `link` tags unless you know what you are doing -->
+      <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+      <link href="https://fonts.googleapis.com/css?family=Russo+One" rel="stylesheet">
+
+      <!-- Do not add `script` tags unless you know what you are doing -->
+      <script src="public/vendor.js" type="text/javascript" charset="utf-8" defer></script>
+      <script src="public/application.js" type="text/javascript" charset="utf-8" defer></script>
+    </head>
+    <body class="container-fluid">
+
+      <!-- NAVBAR -->
+      <nav class="navbar navbar-default">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <a class="navbar-brand" href="#">Fight Simulator</a>
+          </div>
+          <!-- Collect the nav links, forms, and other content for toggling -->
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+              <li id="sign-up"><a href="#">Sign Up</a></li>
+              <li id="log-in"><a href="#">Log In</a></li>
+              <li id="change-password"><a href="#">Change Password</a></li>
+              <li id="log-out"><a href="#">Log Out</a></li>
+            </ul>
+          </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+      </nav>
+      <!-- NAVBAR -->
+
+      <!-- MAIN BODY -->
+      <div class="main">
+        <p>VS</p>
+        <!-- good guys -->
+        <div class="good">
+          <button class="btn btn-success" id="add-char" type="button" name="button">Add Character</button>
+          <!-- Start Good Guys List -->
+
+        </div><!-- end good -->
+
+        <!-- bad guys -->
+        <div class="bad">
+          <button class="btn btn-danger" id="add-enemy" type="button" name="button">Add Enemy</button>
+          <!-- Start Bad Guys List -->
+
+        </div><!-- end bad -->
+
+        <button class="btn btn-warning run" id="run-sim" type="button" name="button">Run Simulation</button>
+        <p class="run">Run <input id="run-count" type="text" name="" value="1" maxlength="2" size="2"> times</p>
+
+      </div><!-- end main -->
+
+      <!-- MAIN2 BODY -->
+      <div class="main2">
+        <!-- hold results of sim -->
+        <div class="results">
+
+        </div><!-- end results -->
+      </div><!-- end main2 -->
+
+      <div class="clear"></div>
+
+      <div class="back-button">
+        <button class="btn back" id="back" type="button" name="button">Back</button>
+      </div>
+
+      <div class="main3">
+          <div class="new-char-form">
+
+          </div>
+
+          <div class="submit-back">
+            <button type="button" id="char-back" class="btn btn-default back-btn">Back</button>
+            <button type="button" id="char-submit" class="btn btn-default submit-btn">Submit</button>
+          </div>
+        </div>
+
+    </body>
+</html>
